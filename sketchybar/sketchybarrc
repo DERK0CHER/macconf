@@ -1,0 +1,64 @@
+# ~/.config/sketchybar/config
+
+# Set the font
+font="Hack Nerd Font:Regular:12.0"
+
+# Set colors for Tokyo Night theme
+background_color=#1a1b26
+foreground_color=#a9b1d6
+primary_color=#7aa2f7
+secondary_color=#bb9af7
+urgent_color=#f7768e
+
+# General bar settings
+bar {
+    position=top
+    background=$background_color
+    height=30
+    padding_left=10
+    padding_right=10
+}
+
+# Item defaults
+defaults {
+    label.color=$foreground_color
+    label.font="$font"
+    icon.color=$foreground_color
+    padding_left=5
+    padding_right=5
+}
+
+# Example items with scripts
+item clock {
+    script="~/.config/sketchybar/scripts/clock.sh"
+    update_freq=1
+}
+
+item wifi {
+    script="~/.config/sketchybar/scripts/wifi.sh"
+    update_freq=5
+}
+
+item battery {
+    script="~/.config/sketchybar/scripts/battery.sh"
+    update_freq=30
+}
+
+item cpu {
+    script="~/.config/sketchybar/scripts/cpu.sh"
+    update_freq=5
+}
+
+item memory {
+    script="~/.config/sketchybar/scripts/memory.sh"
+    update_freq=5
+}
+
+item workspace {
+    script="~/.config/sketchybar/scripts/workspace.sh"
+    update_freq=1
+}
+
+# Additional customization can go below
+# ...
+

@@ -1,0 +1,54 @@
+--------------------------------------------------------------------------------
+-- init.lua - Main Neovim configuration
+--
+-- 1) Prepend Homebrew's bin directory to PATH.
+-- 2) Auto-insert a LaTeX template into new .tex files.
+-- 3) Bootstrap lazy.nvim and load plugin specs from "plugins".
+-- 4) Set some basic options and key mappings.
+--------------------------------------------------------------------------------
+
+-- Prepend Homebrew's bin directory (adjust if you're on Intel, e.g. "/usr/local/bin")
+vim.env.PATH = "/opt/homebrew/bin:" .. vim.env.PATH
+
+-- Auto-insert LaTeX template for new .tex files.
+vim.api.nvim_create_autocmd("BufNewFile", {
+  pattern = "*.tex",
+  callback = function()
+    local template_path = vim.fn.stdpath("config") .. "/templates/latex_template.tex"
+    vim.cmd("0r " .. template_path)
+  end,
+})
+
+-- Bootstrap lazy.nvim if not installed.
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+-- Load plugin specifications from the "plugins" module (located at ~/.config/nvim/lua/plugins.lua).
+require("lazy").setup("plugins", {
+  ui = {
+    border = "rounded",
+    config_picker = function(plugin)
+      -- Debug: print to the command line so you can see if it is called.
+      print("config_picker called for plugin: " .. (plugin.name or "unknown"))
+      -- Show a notification if no config file is set.
+      vim.notify("No configuration file is set for " .. (plugin.name or "this plugin"), vim.log.levels.WARN)
+      return nil
+    end,
+  },
+})
+-- Basic global settings.
+vim.o.termguicolors = true  -- enable 24-bit RGB colors
+
+-- Override VimTeX compile key mapping so that <leader>ll triggers compilation.
+vim.keymap.set("n", "<leader>ll", "<cmd>VimtexCompile<CR>", { noremap = true, silent = true })
+
