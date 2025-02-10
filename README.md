@@ -1,0 +1,1 @@
+brew install --cask aerospace && brew install --cask raycast && brew install --cask kitty && brew install --cask neovim && brew install --cask fish && brew install --cask neofetch && brew install --cask sketchybar
